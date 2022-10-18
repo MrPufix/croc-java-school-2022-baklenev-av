@@ -7,7 +7,7 @@ public class Main {
         String[] names = new String[] {"B", "KB", "MB", "GB", "TB", "PB"};
 
         int count = 0;
-        while (bytes >= 1024) {
+        while (bytes >= 1024 && count < (names.length - 1)) {
             bytes /= 1024;
             count++;
         }
