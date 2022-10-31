@@ -1,6 +1,6 @@
 package ru.croc.task4;
 
-public class Main {
+public class Task4 {
     public  static String removeJavaComments(String original) {
         String noComments = "";
 
@@ -8,10 +8,14 @@ public class Main {
         char stopChar = '\n';
         for (int i = 0; i < original.length(); i++) {
             if(erase && original.charAt(i) == stopChar) {
-                erase = false;
-                if(stopChar == '\n')
+                if(stopChar == '\n') {
+                    erase = false;
                     noComments += '\n';
-                continue;
+                    continue;
+                } else if (original.charAt(i-1) == '*') {
+                    erase = false;
+                    continue;
+                }
             }
 
             if(!erase && original.charAt(i) == '/') {
@@ -29,9 +33,9 @@ public class Main {
 
     public static void main(String[] args) {
         String source = """
-                /*
+                /*/*
                  * My first ever program in Java!
-                 */
+                 *///
                 class Hello { // class body starts here
                 
                   /* main method */

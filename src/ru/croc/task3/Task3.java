@@ -2,7 +2,7 @@ package ru.croc.task3;
 
 import java.util.Scanner;
 
-public class Main {
+public class Task3 {
     public static void swap(int[] arr, int first_index, int second_index) {
         int temp = arr[first_index];
         arr[first_index] = arr[second_index];
@@ -38,8 +38,11 @@ public class Main {
         }
 
         swap(arr, min_index, 0);
-        if (arr[arr.length - 1] != max)
-            swap(arr, max_index, arr.length - 1);
+
+        if(max_index == 0)
+            max_index = min_index;
+
+        swap(arr, max_index, arr.length - 1);
 
         for (int el: arr) {
             System.out.print(el + " ");
