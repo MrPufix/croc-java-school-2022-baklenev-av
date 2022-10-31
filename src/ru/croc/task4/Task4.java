@@ -6,21 +6,35 @@ public class Task4 {
 
         boolean erase = false;
         char stopChar = '\n';
+        int commentStartIndex = 0;
         for (int i = 0; i < original.length(); i++) {
+            // if found comment end
             if(erase && original.charAt(i) == stopChar) {
                 if(stopChar == '\n') {
                     erase = false;
                     noComments += '\n';
                     continue;
-                } else if (original.charAt(i-1) == '*') {
+                } else if (commentStartIndex != (i-1) && original.charAt(i-1) == '*') {
                     erase = false;
                     continue;
                 }
             }
 
+            // if found comment start
             if(!erase && original.charAt(i) == '/') {
                 erase = true;
-                stopChar = original.charAt(i+1) == '*' ? '/' : '\n';
+
+                char nextChar = original.charAt(i+1);
+                commentStartIndex = ++i;
+
+                switch (nextChar) {
+                    case ('*') -> stopChar = '/';
+                    case ('/') -> stopChar = '\n';
+                    default -> {
+                        erase = false;
+                        i--;
+                    }
+                }
             }
 
             if(!erase) {
@@ -34,9 +48,9 @@ public class Task4 {
     public static void main(String[] args) {
         String source = """
                 /*/*
-                 * My first ever program in Java!
+                 * My first ever program in Java! /
                  *///
-                class Hello { // class body starts here
+                class Hello { ///*/* class body starts here*/
                 
                   /* main method */
                   public static void main(String[] args/* we put command line arguments here*/) {
