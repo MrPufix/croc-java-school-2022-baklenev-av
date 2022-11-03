@@ -2,10 +2,10 @@ package ru.croc.task7;
 
 public class IllegalMoveException extends Exception{
 
-    private final String startPos;
-    private final String endPos;
+    private final ChessPosition startPos;
+    private final ChessPosition endPos;
 
-    IllegalMoveException(String startPos, String endPos) {
+    IllegalMoveException(ChessPosition startPos, ChessPosition endPos) {
         this.startPos = startPos;
         this.endPos = endPos;
     }
@@ -15,10 +15,10 @@ public class IllegalMoveException extends Exception{
         return "Can't move from " + startPos + " to " + endPos;
     }
 
-    public String getStartPos() {
+    public ChessPosition getStartPos() {
         return startPos;
     }
-    public String getEndPos() {
+    public ChessPosition getEndPos() {
         return endPos;
     }
 }

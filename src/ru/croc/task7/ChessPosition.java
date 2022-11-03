@@ -13,7 +13,7 @@ public class ChessPosition {
         this.y = y;
     }
 
-    static ChessPosition parse (String position) throws IllegalPositionException {
+    static ChessPosition parse(String position) throws IllegalPositionException {
         char posLetter = position.charAt(0);
         char posNumber = position.charAt(1);
 
@@ -23,32 +23,29 @@ public class ChessPosition {
         return new ChessPosition(x, y);
     }
 
+    static boolean checkHorseMove(int startX, int startY, int endX, int endY) {
+        int[] possibleMovesX = {-1, -2, -2, -1, 1, 2, 2, 1};
+        int[] possibleMovesY = {-2, -1, 1, 2, 2, 1, -1, -2};
+
+        for(int j = 0; j < possibleMovesX.length; j++) {
+            if(startX + possibleMovesX[j] == endX && startY + possibleMovesY[j] == endY) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     static void checkHorseMovement(String[] movement) throws IllegalMoveException, IllegalPositionException {
         ChessPosition currentPos = ChessPosition.parse(movement[0]);
         ChessPosition nextPos;
 
-        int[] possibleMovesX = {-1, -2, -2, -1, 1, 2, 2, 1};
-        int[] possibleMovesY = {-2, -1, 1, 2, 2, 1, -1, -2};
-
         for(int i = 1; i < movement.length; i++) {
             nextPos = ChessPosition.parse(movement[i]);
 
-            int nextPosX = nextPos.x;
-            int nextPosY = nextPos.y;
-
-            int currentPosX = currentPos.x;
-            int currentPosY = currentPos.y;
-
-            boolean canMove = false;
-            for(int j = 0; j < possibleMovesX.length; j++) {
-                if(currentPosX + possibleMovesX[j] == nextPosX && currentPosY + possibleMovesY[j] == nextPosY) {
-                    canMove = true;
-                    break;
-                }
-            }
+            boolean canMove = checkHorseMove(currentPos.x, currentPos.y, nextPos.x, nextPos.y);
 
             if(!canMove)
-                throw new IllegalMoveException(currentPos.toString(), nextPos.toString());
+                throw new IllegalMoveException(currentPos, nextPos);
 
             currentPos = nextPos;
         }
