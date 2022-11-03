@@ -14,10 +14,6 @@ public class Figure implements Movable {
         return type;
     }
 
-    public Point[] getPoints() {
-        return points;
-    }
-
     public String getPositionData() {
         StringBuilder position = new StringBuilder();
         for(int i = 0; i < points.length; i++) {
@@ -26,6 +22,19 @@ public class Figure implements Movable {
                 position.append(", ");
         }
         return position.toString();
+    }
+
+    public boolean hasPoint(int x, int y) {
+        for(Point point : points) {
+            if(point.x == x && point.y == y)
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return getType() + " " + getPositionData();
     }
 
     @Override

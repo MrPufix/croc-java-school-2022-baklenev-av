@@ -23,4 +23,9 @@ public class Figure {
         }
         return position.toString();
     }
+
+    @Override
+    public String toString() {
+        return getType() + " " + getPositionData();
+    }
 }

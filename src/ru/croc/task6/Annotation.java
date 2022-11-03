@@ -19,6 +19,6 @@ public class Annotation {
 
     @Override
     public String toString() {
-        return figure.getType() + " " + figure.getPositionData() + ": " + annotationText;
+        return figure + ": " + annotationText;
     }
 }

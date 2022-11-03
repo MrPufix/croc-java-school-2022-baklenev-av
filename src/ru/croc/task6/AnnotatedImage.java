@@ -21,11 +21,9 @@ class AnnotatedImage {
 
     public Annotation findByPoint (int x, int y) {
         for(Annotation annotation : annotations) {
-            Point[] points = annotation.getFigure().getPoints();
-            for(Point point : points) {
-                if(point.x == x && point.y == y)
-                    return annotation;
-            }
+            Figure figure = annotation.getFigure();
+            if(figure.hasPoint(x, y))
+                return annotation;
         }
         return null;
     }

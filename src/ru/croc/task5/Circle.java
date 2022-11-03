@@ -10,8 +10,7 @@ public class Circle extends Figure {
     }
 
     @Override
-    public String getPositionData() {
-        String position = super.getPositionData();
-        return position + ", " + radius;
+    public String toString() {
+        return super.toString() + ", " + radius;
     }
 }
