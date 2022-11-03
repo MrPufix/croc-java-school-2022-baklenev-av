@@ -24,6 +24,13 @@ public class Figure implements Movable {
         return position.toString();
     }
 
+    public Point getPoint(int index) {
+        if(index >= 0 && index < points.length) {
+            return points[index];
+        }
+        return null;
+    }
+
     public boolean hasPoint(int x, int y) {
         for(Point point : points) {
             if(point.x == x && point.y == y)

@@ -14,8 +14,8 @@ public class Test {
         AnnotatedImage im = new AnnotatedImage("C:\\Documents", rect1, rect2, circle1, circle2);
 
         System.out.println("Find by point:");
-        System.out.println(im.findByPoint(100, 20));
-        System.out.println(im.findByPoint(1, 2));
+        System.out.println(im.findByPoint(55, 20));
+        System.out.println(im.findByPoint(10, 23));
         System.out.println(im.findByPoint(5, 6));
         System.out.println(im.findByPoint(0, 0));
 
