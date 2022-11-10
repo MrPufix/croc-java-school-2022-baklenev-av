@@ -7,14 +7,19 @@ import java.util.Scanner;
 public class Task9 {
     public static String normalizePath(String pathString) {
         Path path = Paths.get(pathString);
-        return path.normalize().toString().replace('\\', '/');
+
+        path = path.normalize();
+
+        String normalizedPath = path.toString();
+        normalizedPath = normalizedPath.replace('\\', '/');
+
+        return normalizedPath;
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        String path = scanner.nextLine();
-
-        System.out.print(normalizePath(path));
+        try (Scanner scanner = new Scanner(System.in)) {
+            String path = scanner.nextLine();
+            System.out.print(normalizePath(path));
+        }
     }
 }
