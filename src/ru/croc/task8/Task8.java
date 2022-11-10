@@ -14,7 +14,7 @@ public class Task8 {
      * separated from the sides by spaces or \n is considered a word.
      * @param fileName file to count words in
      * @return amount of words in file
-     * @throws IOException if cannot open file for some reason
+     * @throws IOException if reader cannot open file for some reason
      */
     public static int countWordsInFile(String fileName) throws IOException {
         try(FileReader reader = new FileReader(fileName))
