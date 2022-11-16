@@ -42,8 +42,8 @@ public class Solution {
      * @param passwordHash hash of password to find
      * @param passwordLength length of password to find
      * @return password
-     * @throws ExecutionException if thread was interrupted
-     * @throws InterruptedException if computation threw an exception
+     * @throws ExecutionException if computation threw an exception
+     * @throws InterruptedException if thread was interrupted
      */
     public static String calculatePassword(int threadsNumber, String passwordHash, int passwordLength)
             throws ExecutionException, InterruptedException {
