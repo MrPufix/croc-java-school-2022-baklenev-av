@@ -10,16 +10,16 @@ public class AuctionLot {
     private volatile String bettorName;
     private final LocalDateTime endTime;
 
-    public AuctionLot(int currentPrice, String bettorName, LocalDateTime endTime) {
-        this.currentPrice = currentPrice;
-        this.bettorName = bettorName;
+    public AuctionLot(int startPrice, LocalDateTime endTime) {
+        currentPrice = startPrice;
         this.endTime = endTime;
+        bettorName = "";
     }
 
     public void bet(int newPrice, String bettor) {
+        if(lotClosed() || newPrice <= currentPrice) return;
         lock.lock();
         try {
-            if(lotClosed()) return;
             if(newPrice > currentPrice) {
                 currentPrice = newPrice;
                 bettorName = bettor;
@@ -30,6 +30,8 @@ public class AuctionLot {
     }
 
     public String getWinnerName() {
+        if(!lotClosed())
+            return "";
         return bettorName;
     }
 

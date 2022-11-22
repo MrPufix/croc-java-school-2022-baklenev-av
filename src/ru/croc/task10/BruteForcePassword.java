@@ -3,18 +3,20 @@ package ru.croc.task10;
 import java.util.concurrent.Callable;
 
 public class BruteForcePassword implements Callable<String> {
-    public static volatile boolean found = false;
+    public static class FoundSync {public volatile boolean found = false;}
 
+    private final FoundSync foundSyncObject;
     private final long lowerBound;
     private final long upperBound;
     private final int passwordLength;
     private final String passwordHash;
 
-    public BruteForcePassword(long lowerBound, long upperBound, int passwordLength, String passwordHash) {
+    public BruteForcePassword(long lowerBound, long upperBound, int passwordLength, String passwordHash, FoundSync foundSyncObject) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         this.passwordLength = passwordLength;
         this.passwordHash = passwordHash;
+        this.foundSyncObject = foundSyncObject;
     }
 
     private static String numberToPassword(long number, int passwordLength) {
@@ -58,10 +60,10 @@ public class BruteForcePassword implements Callable<String> {
         String password = numberToPassword(lowerBound, passwordLength);
         for(long number = lowerBound; number <= upperBound; number++) {
             if(HashGenerator.hashPassword(password).equals(passwordHash)) {
-                found = true;
+                foundSyncObject.found = true;
                 return password;
             }
-            if(found) {
+            if(foundSyncObject.found) {
                 return "";
             }
 

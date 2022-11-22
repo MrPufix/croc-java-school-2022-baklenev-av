@@ -26,9 +26,10 @@ public class Solution {
         long max = maxNumber(passwordLength);
         long lowerBound = 0;
         long step = max / threadsNumber;
+        BruteForcePassword.FoundSync foundSync = new BruteForcePassword.FoundSync();
         for (int i = 0; i < threadsNumber; i++) {
             long upperBound = i != threadsNumber - 1 ? lowerBound + step : max;
-            threads[i] = pool.submit(new BruteForcePassword(lowerBound, upperBound, passwordLength, passwordHash));
+            threads[i] = pool.submit(new BruteForcePassword(lowerBound, upperBound, passwordLength, passwordHash, foundSync));
             lowerBound += step + 1;
         }
 
@@ -58,7 +59,6 @@ public class Solution {
         }
 
         pool.shutdown();
-        BruteForcePassword.found = false;
 
         return password.toString();
     }
