@@ -5,12 +5,13 @@ import java.time.LocalDateTime;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class AuctionLot {
-    private static final ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock;
     private volatile int currentPrice;
     private volatile String bettorName;
     private final LocalDateTime endTime;
 
     public AuctionLot(int startPrice, LocalDateTime endTime) {
+        lock = new ReentrantLock();
         currentPrice = startPrice;
         this.endTime = endTime;
         bettorName = "";
