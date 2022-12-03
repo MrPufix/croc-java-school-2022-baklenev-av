@@ -35,24 +35,25 @@ public class FilmRecommendation {
     /**
      * Recommends film based on input user history.
      * User history is a string containing integer film indexes separated by comma.
-     * @param userHistory history of user to recommend film for
+     * @param inputUserHistory history of user to recommend film for
      * @return name of film recommended for user
      */
-    public String getRecommendation(String userHistory) {
-        Set<String> uniqueUserFilms = hashSetOf(userHistory.split(","));
+    public String getRecommendation(String inputUserHistory) {
+        Set<String> uniqueInputUserFilms = hashSetOf(inputUserHistory.split(","));
 
         //Step 1
-        List<String> similarUsers = findSimilarUsers(uniqueUserFilms);
+        List<String> similarUserHistories = findSimilarUsers(uniqueInputUserFilms);
 
         //Step 2
-        for(int i = 0; i < similarUsers.size(); i++) {
-            String simUserHistory = similarUsers.get(i);
-            simUserHistory = removeFilms(simUserHistory, uniqueUserFilms);
-            similarUsers.set(i, simUserHistory);
+        for(int i = 0; i < similarUserHistories.size(); i++) {
+            String similarUserHistory = similarUserHistories.get(i);
+            similarUserHistory = removeFilms(similarUserHistory, uniqueInputUserFilms);
+            similarUserHistories.set(i, similarUserHistory);
         }
 
         //Step3
-        int recommendedFilmIndex = getHighestViewedFilmIndex(similarUsers);
+        Set<String> filmsViewedBySimilarUsers = getFilmsSet(similarUserHistories);
+        int recommendedFilmIndex = getHighestViewedFilmIndex(filmsViewedBySimilarUsers);
 
         return films.get(recommendedFilmIndex);
     }
@@ -77,7 +78,7 @@ public class FilmRecommendation {
                     similarFilmsCount++;
             }
 
-            if(similarFilmsCount*2 >= uniqueFilms.size())
+            if(similarFilmsCount*2 >= uniqueUserFilms.size())
                 similarUsers.add(userHistory);
         }
 
@@ -106,19 +107,33 @@ public class FilmRecommendation {
     }
 
     /**
-     * Returns index of highest viewed film in list of user histories.
-     * User history is a string containing integer film indexes separated by comma.
-     * @param usersHistories list of user histories to find highest viewed film in
+     * Get set of films from list of user histories
+     * @param userHistories - list of user histories
+     * @return set of films
+     */
+    private Set<String> getFilmsSet(List<String> userHistories) {
+        HashSet<String> result = new HashSet<>();
+        for(String userHistory : userHistories) {
+            result.addAll(Arrays.asList(userHistory.split(",")));
+        }
+        return result;
+    }
+
+    /**
+     * Returns index of highest viewed film from given set.
+     * @param filmsToCheck set of films to seek highest viewed from
      * @return index of highest viewed film
      */
-    private int getHighestViewedFilmIndex(List<String> usersHistories) {
+    private int getHighestViewedFilmIndex(Set<String> filmsToCheck) {
         int maxCount = 0;
         int maxFilmIndex = 0;
 
         HashMap<String, Integer> filmsCount = new HashMap<>();
 
-        for(String userHistory : usersHistories) {
+        for(String userHistory : history) {
             for(String film : userHistory.split(",")) {
+                if (!filmsToCheck.contains(film)) continue;
+
                 Integer filmCount = filmsCount.get(film);
                 if(filmCount == null) filmCount = 0;
 
