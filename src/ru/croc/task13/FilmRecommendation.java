@@ -59,8 +59,8 @@ public class FilmRecommendation {
     }
 
     /**
-     * Finds users who have at least half of their
-     * movies the same as the input user's movies.
+     * Finds users who watched at least
+     * half of input user films.
      * Checks only unique movies.
      * User history is a string containing integer film indexes separated by comma.
      * @param uniqueUserFilms set of input user movies
