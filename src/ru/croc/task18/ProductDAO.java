@@ -7,7 +7,7 @@ public class ProductDAO {
     private static final String user = "sa";
     private static final String password = "";
 
-    public Product findProduct(String productCode) {
+    public Product findProduct(String productCode) throws SQLException {
         String sql = "SELECT * FROM Product WHERE code = ?";
         try (Connection connection = DriverManager.getConnection(connectionURL, user, password)) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -23,12 +23,8 @@ public class ProductDAO {
                     }
                 }
             }
-        } catch (SQLException e) {
-            return null;
         }
     }
-
-
 
     public Product createProduct(Product product) throws SQLException {
         String sql = "SELECT * FROM Product WHERE code = ?";
@@ -47,13 +43,13 @@ public class ProductDAO {
                             return product;
                         }
                     } else
-                        throw new SQLException();
+                        throw new SQLException("Product with this code already exists");
                 }
             }
         }
     }
 
-    public Product updateProduct(Product product) {
+    public Product updateProduct(Product product) throws SQLException {
         try (Connection connection = DriverManager.getConnection(connectionURL, user, password)) {
             String sql = "UPDATE Product SET name = ?, price = ? WHERE code = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -65,8 +61,6 @@ public class ProductDAO {
                 else
                     return null;
             }
-        } catch (SQLException e) {
-            return null;
         }
     }
 

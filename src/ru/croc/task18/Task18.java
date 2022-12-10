@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Task18 {
-    private static void testFindPr(ProductDAO productDAO, String productCode) {
+    private static void testFindPr(ProductDAO productDAO, String productCode) throws SQLException {
         Product pr = productDAO.findProduct(productCode);
         if(pr != null)
             System.out.println(pr.getName() + " " + pr.getPrice());
