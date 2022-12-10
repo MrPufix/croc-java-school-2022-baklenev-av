@@ -8,7 +8,7 @@ public class OrderDAO {
     private static final String user = "sa";
     private static final String password = "";
 
-    Order createOrder(String userLogin, List<Product> products) throws SQLException {
+    public Order createOrder(String userLogin, List<Product> products) throws SQLException {
         int ordNumber;
         try (Connection connection = DriverManager.getConnection(connectionURL, user, password)) {
             String sql = "Select max(ORD_NUMBER) From ORD";
@@ -31,7 +31,7 @@ public class OrderDAO {
                 insSql = "INSERT INTO Order_Products (ORD_NUMBER, product_code) VALUES (?, ?)";
                 try (PreparedStatement insStatement = connection.prepareStatement(insSql)) {
                     insStatement.setInt(1, ordNumber);
-                    insStatement.setString(2, product.code);
+                    insStatement.setString(2, product.getCode());
                     insStatement.executeUpdate();
                 }
             }

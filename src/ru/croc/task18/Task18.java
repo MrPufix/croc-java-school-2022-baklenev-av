@@ -7,11 +7,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Task18 {
-
     private static void testFindPr(ProductDAO productDAO, String productCode) {
         Product pr = productDAO.findProduct(productCode);
         if(pr != null)
-            System.out.println(pr.name + " " + pr.price);
+            System.out.println(pr.getName() + " " + pr.getPrice());
         else
             System.out.println("Not found");
     }
@@ -36,7 +35,7 @@ public class Task18 {
         productDAO.createProduct(sofa);
         testFindPr(productDAO, "Т6");
 
-        sofa = productDAO.updateProduct(new Product(sofa.code, "Не диван", 4));
+        sofa = productDAO.updateProduct(new Product(sofa.getCode(), "Не диван", 4));
         testFindPr(productDAO, "Т6");
 
         productDAO.deleteProduct("Т6");

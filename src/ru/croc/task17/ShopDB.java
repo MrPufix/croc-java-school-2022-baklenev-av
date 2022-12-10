@@ -126,7 +126,7 @@ public class ShopDB {
         String customer = data[1];
         String productCode = data[2];
         String productName = data[3];
-        int price = Integer.parseInt(data[0]);
+        int price = Integer.parseInt(data[4].strip());
 
         String sql = "SELECT * FROM Product WHERE code = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {

@@ -1,9 +1,9 @@
 package ru.croc.task18;
 
 public class Product {
-    String code;
-    String name;
-    int price;
+    private final String code;
+    private final String name;
+    private final int price;
 
     public Product(String code, String name, int price) {
         this.code = code;

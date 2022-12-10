@@ -7,7 +7,7 @@ public class ProductDAO {
     private static final String user = "sa";
     private static final String password = "";
 
-    Product findProduct(String productCode) {
+    public Product findProduct(String productCode) {
         String sql = "SELECT * FROM Product WHERE code = ?";
         try (Connection connection = DriverManager.getConnection(connectionURL, user, password)) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -30,19 +30,19 @@ public class ProductDAO {
 
 
 
-    Product createProduct(Product product) throws SQLException {
+    public Product createProduct(Product product) throws SQLException {
         String sql = "SELECT * FROM Product WHERE code = ?";
         try (Connection connection = DriverManager.getConnection(connectionURL, user, password)) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, product.code);
+                statement.setString(1, product.getCode());
                 try (ResultSet result = statement.executeQuery()) {
                     if (!result.next()) {
                         //add product if not already added
                         String insSql = "INSERT INTO Product (code, name, price) VALUES (?, ?, ?)";
                         try (PreparedStatement insStatement = connection.prepareStatement(insSql)) {
-                            insStatement.setString(1, product.code);
-                            insStatement.setString(2, product.name);
-                            insStatement.setInt(3, product.price);
+                            insStatement.setString(1, product.getCode());
+                            insStatement.setString(2, product.getName());
+                            insStatement.setInt(3, product.getPrice());
                             insStatement.executeUpdate();
                             return product;
                         }
@@ -53,13 +53,13 @@ public class ProductDAO {
         }
     }
 
-    Product updateProduct(Product product) {
+    public Product updateProduct(Product product) {
         try (Connection connection = DriverManager.getConnection(connectionURL, user, password)) {
             String sql = "UPDATE Product SET name = ?, price = ? WHERE code = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, product.name);
-                statement.setInt(2, product.price);
-                statement.setString(3, product.code);
+                statement.setString(1, product.getName());
+                statement.setInt(2, product.getPrice());
+                statement.setString(3, product.getCode());
                 if(statement.executeUpdate() > 0)
                     return product;
                 else
@@ -70,7 +70,7 @@ public class ProductDAO {
         }
     }
 
-    void deleteProduct(String productCode) throws SQLException {
+    public void deleteProduct(String productCode) throws SQLException {
         try (Connection connection = DriverManager.getConnection(connectionURL, user, password)) {
             String delOrdSql = "DELETE FROM ORDER_PRODUCTS WHERE product_code = ?";
             try (PreparedStatement statement = connection.prepareStatement(delOrdSql)) {
