@@ -66,7 +66,7 @@ public class Task16 {
     }
 
     public static void main(String[] args) throws IOException {
-        File[] logs = new File(args[0]).listFiles(((dir, name) -> name.contains(".log") || name.contains(".trace")));
+        File[] logs = new File(args[0]).listFiles(((dir, name) -> name.endsWith(".log") || name.endsWith(".trace")));
         if(logs == null || logs.length == 0) return;
         if(logs.length == 1) {
             outFile(logs[0]);

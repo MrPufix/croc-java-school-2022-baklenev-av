@@ -2,6 +2,8 @@ package ru.croc.task15;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class DepartmentConfiguration {
@@ -9,7 +11,7 @@ public class DepartmentConfiguration {
 
     private DepartmentConfiguration(Department headDepartment) {
         this.headDepartment = headDepartment;
-    };
+    }
 
     /**
      * Creates department configuration from file.
@@ -23,6 +25,7 @@ public class DepartmentConfiguration {
     public static DepartmentConfiguration createFromFile(String fileName) throws FileNotFoundException {
         Department head = null;
         try(Scanner scanner = new Scanner(new File(fileName))) {
+            Map<String, Department> departments = new HashMap<>();
             while (scanner.hasNext()) {
                 String[] data = scanner.nextLine().split(",");
 
@@ -31,11 +34,14 @@ public class DepartmentConfiguration {
                 int handleTime = Integer.parseInt(data[2]);
 
                 if(parentName.equals("-")) {
-                    head = new Department(null, handleTime, name);
+                    head = new Department(name, handleTime);
+                    departments.put(name, head);
                 } else {
                     if(head == null) continue;
-                    Department parent = head.getDepartmentByName(parentName);
-                    new Department(parent, handleTime, name);
+                    Department parent = departments.get(parentName);
+                    Department department = new Department(name, handleTime);
+                    parent.addChild(department);
+                    departments.put(name, department);
                 }
             }
         }
